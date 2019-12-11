@@ -1,0 +1,25 @@
+﻿<Window x:Class="AdminPanel.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AdminPanel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="43*"/>
+            <RowDefinition Height="312*"/>
+            <RowDefinition Height="64*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="43*"/>
+            <ColumnDefinition Width="155*"/>
+        </Grid.ColumnDefinitions>
+        <ComboBox x:Name="productsComboBox" Text="Products" Grid.Row="1" VerticalAlignment="Top" Height="35"></ComboBox>
+        <ComboBox x:Name="categoriesComboBox" Text="Categories" Grid.Row="1" VerticalAlignment="Top" Height="35" Margin="0,35,0,0"></ComboBox>
+        <Button x:Name="createButton" Content="Create" Click="Create" Grid.Row="3" ></Button>
+        <Button x:Name="refreshButton" Content="Refresh data" Grid.Row="0" ></Button>
+        <Frame x:Name="mainDataFrame" Grid.Column="1" Grid.Row="1"></Frame>
+    </Grid>
+</Window>
