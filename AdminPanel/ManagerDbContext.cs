@@ -10,7 +10,7 @@ namespace AdminPanel
 {
     public class ManagerDbContext : DbContext
     {
-        public ManagerDbContext() : base("Server=A-104-4;Database=Products;Trusted_Connection=true;")
+        public ManagerDbContext() : base("Server=KVITLICH;Database=Products;Trusted_Connection=true;")
         {
             Database.CreateIfNotExists();
         }

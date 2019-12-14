@@ -65,7 +65,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="CreatingForm.xaml">
+    <Page Include="CreatingForms\CategoryForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CreatingForms\ProductForm.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -77,8 +81,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="CreatingForm.xaml.cs">
-      <DependentUpon>CreatingForm.xaml</DependentUpon>
+    <Compile Include="CreatingForms\CategoryForm.xaml.cs">
+      <DependentUpon>CategoryForm.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="CreatingForms\ProductForm.xaml.cs">
+      <DependentUpon>ProductForm.xaml</DependentUpon>
     </Compile>
     <Compile Include="Domain\Category.cs" />
     <Compile Include="Domain\Entity.cs" />

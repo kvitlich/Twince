@@ -9,6 +9,11 @@ namespace AdminPanel.Domain
     public class Category : Entity
     {
         public string Name { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product> Products { get; set; } = new List<Product>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

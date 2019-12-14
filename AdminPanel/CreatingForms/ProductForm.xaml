@@ -1,0 +1,20 @@
+﻿<Page x:Class="AdminPanel.CreatingForms.ProductForm"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:AdminPanel.CreatingForms"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ProductForm">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="366*"/>
+            <RowDefinition Height="83*"/>
+        </Grid.RowDefinitions>
+        <Button x:Name="confirmButton" Click="Confirm" Content="Confirm" FontSize="20" Grid.Row="1" Height="40" Width="220"/>
+        <TextBox x:Name="nameTextBox" HorizontalAlignment="Center" VerticalAlignment="Center" Height="40" Width="320" Text="Название продукта" GotMouseCapture="NameTextBoxGotMouseCapture" LostKeyboardFocus="NameTextBoxLostKeyboardFocus"/>
+        <ComboBox x:Name="categoryComboBox" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,220" SelectionChanged="categoryComboBoxSelectionChanged" Height="40" Width="320" Text="Категория"/>
+    </Grid>
+</Page>
