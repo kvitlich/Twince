@@ -1,6 +1,7 @@
 ﻿using AdminPanel.Domain;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -14,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xaml;
 
 namespace AdminPanel
 {
@@ -22,14 +24,22 @@ namespace AdminPanel
     /// </summary>
     public partial class MainWindow : Window
     {
-        private delegate void DbProductAction(Category categoty);
-        private delegate void DbCategoryAction();
     
         public MainWindow()
         {
             InitializeComponent();
-            DbCategoryAction dbCategoryAction = new DbCategoryAction(RefreshCategories);
-            dbCategoryAction.BeginInvoke(null, null);
+            InitDb();
+            SignIn signIn = new SignIn();
+            signIn.Activate();
+            signIn.Show();
+            signIn.Closed += SignInAccept;
+            RefreshCategories();
+            mainGrid.Visibility = Visibility.Hidden;
+        }
+
+        private void SignInAccept(object sender, EventArgs e)
+        {
+            mainGrid.Visibility = Visibility.Visible;
         }
 
         private void Create(object sender, RoutedEventArgs e)
@@ -42,45 +52,53 @@ namespace AdminPanel
 
         private void Refresh(object sender, RoutedEventArgs e)
         {
-            DbCategoryAction dbCategoryAction = new DbCategoryAction(RefreshCategories);
-            dbCategoryAction.BeginInvoke(null, null);
+            RefreshCategories();
             if (categoriesComboBox.SelectedItem != null)
             {
-                DbProductAction dbProductAction = new DbProductAction(RefreshProducts);
-                dbProductAction.BeginInvoke((Category)categoriesComboBox.SelectedItem, null, null);
+                RefreshProducts((Category)categoriesComboBox.SelectedItem);
             }
         }
 
-        private void RefreshProducts(Category category)
+        private async void RefreshProducts(Category category)
         {
-
-            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (ThreadStart)delegate
-            {
                 using (var context = new ManagerDbContext())
                 {
-                    productsComboBox.ItemsSource = context.Products.Where(x => x.Category.Id.Equals(category.Id)).ToList();
+                    productsComboBox.ItemsSource = await context.Products.Where(x => x.Category.Id.Equals(category.Id)).ToListAsync();
                 }
-
-            });
         }
 
-        private void RefreshCategories()
+        private async void InitDb()
         {
-            this.Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Normal, (ThreadStart)delegate
+            using (var context = new ManagerDbContext())
             {
-                using (var context = new ManagerDbContext())
+                var user = await context.Users.Where(x => x.Name == "Urencul").FirstOrDefaultAsync();
+                if (user == null)
                 {
-                    categoriesComboBox.ItemsSource = context.Categories.ToList();
+                    var newUser = new User
+                    {
+                        Name = "Urencul",
+                        Password = "12345678",
+                    };
+                    context.Users.Add(newUser);
                 }
-            });
+                await context.SaveChangesAsync();
+            }
+        }
+
+        private async void RefreshCategories()
+        {
+            using (var context = new ManagerDbContext())
+             {
+               categoriesComboBox.ItemsSource = await context.Categories.ToListAsync();
+             
+            }
         }
 
         private void CategoriesComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (categoriesComboBox.SelectedItem != null)
             {
-                DbProductAction dbProductAction = new DbProductAction(RefreshProducts);
-                dbProductAction.BeginInvoke((Category)categoriesComboBox.SelectedItem, null, null);
+                RefreshProducts((Category)categoriesComboBox.SelectedItem);
             }
             else
             {
